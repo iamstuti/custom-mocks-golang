@@ -1,10 +1,10 @@
 package Dao
 
 import(
-	"projectWorkspace/GCP/Datastore"
-	"projectWorkspace/model"
-	"log"
 
+	"log"
+	"projectWorkspace/projectWorkspace/model"
+	"projectWorkspace/projectWorkspace/GCP/Datastore"
 )
 
 type Dao struct{

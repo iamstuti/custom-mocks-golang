@@ -1,12 +1,14 @@
 package Dao
 
 import (
-	"projectWorkspace/model"
+	"projectWorkspace/projectWorkspace/model"
 )
 
 type InterfaceDao interface{
 
-	GetUser(string, *model.User)(error)
+	GetUser(string, *model.User)error
+
+	GetAllUsers()([]model.User,error)
 
 	
 }

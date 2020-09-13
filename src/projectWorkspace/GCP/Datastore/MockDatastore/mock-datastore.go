@@ -1,13 +1,11 @@
 package MockDatastore
 
 import (
-	"projectWorkspace/model"
-	"projectWorkspace/GCP/Datastore"
+	"projectWorkspace/projectWorkspace/model"
+	"projectWorkspace/projectWorkspace/GCP/Datastore"
 	"context"
 	"fmt"
 	"time"
-	
-
 	"cloud.google.com/go/datastore"
 	"github.com/googleapis/google-cloud-go-testing/datastore/dsiface"
 	"google.golang.org/api/iterator"
@@ -226,7 +224,7 @@ func (mt *MockIterator) Next(dst interface{}) (*datastore.Key, error) {
 		if mt.currentIdx < len(mt.services) {
 
 			infoListObj := mt.services[mt.currentIdx]
-			key, _ := Datastore.GenerateDataStoreNameKey(Datastore.GetServicesKind(),infoListObj.ServiceId,nil)
+			key := Datastore.GenerateDataStoreNameKey(Datastore.GetServicesKind(),infoListObj.ServiceId,nil)
 
 			obj := dst
 			obj.ServiceName = infoListObj.ServiceName
