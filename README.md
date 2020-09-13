@@ -1,0 +1,1 @@
+# custom-mocks-golang
