@@ -14,7 +14,7 @@ const (
 
 
 type MockSendgridClient struct {
-	SG.SGClient
+	SG.SendInterface
 }
 
 func (mockObj MockSendgridClient)Send(email *mail.SGMailV3) (*rest.Response, error) {
@@ -22,7 +22,7 @@ func (mockObj MockSendgridClient)Send(email *mail.SGMailV3) (*rest.Response, err
 }
 
 type MockSendgridClientErr struct{
-	SG.SGClient	
+	SG.SendInterface	
 }
 
 func (mockObjErr MockSendgridClientErr)Send(email *mail.SGMailV3) (*rest.Response, error) {

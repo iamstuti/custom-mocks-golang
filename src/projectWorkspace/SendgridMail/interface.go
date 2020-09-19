@@ -6,6 +6,6 @@ import (
 )
 
 //Client is the interface that wraps a sendgrid.Client.
-type SGClient interface {
+type SendInterface interface {
 	Send(email *mail.SGMailV3) (*rest.Response, error)
 }

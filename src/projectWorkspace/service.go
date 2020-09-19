@@ -13,14 +13,14 @@ type IService interface{
 	AddUser(model.User)(string,error)
 }
 
-func SendMail(model.User,sendgrid.SGClient)error{
+func SendMail(model.User,sendgrid.SendInterface)error{
 	return nil
 }
 
 
 type Service struct{
 	IDAO dao.InterfaceDao
-	IMailClient sendgrid.SGClient
+	IMailClient sendgrid.SendInterface
 }
 
 func (svc Service)AddUser(userObj model.User)(string,error){

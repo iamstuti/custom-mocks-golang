@@ -7,7 +7,7 @@ import (
 )
 
 type MailingClient struct {
-	ISGClient SGClient
+	ISGClient SendInterface
 }
 
 func (m *MailingClient) Connect(appKey string) bool {

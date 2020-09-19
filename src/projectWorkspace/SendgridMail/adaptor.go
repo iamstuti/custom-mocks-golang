@@ -10,7 +10,7 @@ type sgClient struct {
 	*sendgrid.Client 
 }
 
-func AdaptSClient(sg *sendgrid.Client) SGClient{
+func AdaptSClient(sg *sendgrid.Client) SendInterface{
 	return sgClient{sg}
 }
 
