@@ -5,6 +5,7 @@ import(
 	"log"
 	"projectWorkspace/projectWorkspace/model"
 	"projectWorkspace/projectWorkspace/GCP/Datastore"
+	"cloud.google.com/go/datastore"
 )
 
 type Dao struct{
@@ -29,6 +30,12 @@ func(dao Dao)GetUser(userId string, user *model.User)(error){
 	}
 
 	return nil
+}
+
+func (dao Dao)GetAllAccounts()([]model.Account){
+	query := datastore.NewQuery(Datastore.GetAccountKind())
+	var accountList  []model.Account
+
 }
 
 

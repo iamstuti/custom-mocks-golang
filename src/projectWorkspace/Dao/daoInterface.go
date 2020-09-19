@@ -10,5 +10,8 @@ type InterfaceDao interface{
 
 	GetAllUsers()([]model.User,error)
 
+	GetAllAccounts()([]model.Account,error)
+
+
 	
 }
