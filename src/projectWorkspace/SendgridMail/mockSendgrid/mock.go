@@ -2,7 +2,7 @@ package mockSendgrid
 
 import (
 	"errors"
-	SG "projectWorkspace/Sendgrid-Mail"
+	SG "projectWorkspace/projectWorkspace/SendgridMail"
 
 	"github.com/sendgrid/rest"
 	"github.com/sendgrid/sendgrid-go/helpers/mail"

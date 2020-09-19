@@ -1,4 +1,4 @@
-package Sendgrid-Mail
+package SendgridMail
 
 import (
 	"log"
@@ -7,7 +7,7 @@ import (
 )
 
 type MailingClient struct {
-	ISGClient SGlient
+	ISGClient SGClient
 }
 
 func (m *MailingClient) Connect(appKey string) bool {
@@ -16,7 +16,7 @@ func (m *MailingClient) Connect(appKey string) bool {
 
 	m.ISGClient = AdaptSClient(client)
 
-	if m.SGClient != nil {
+	if m.ISGClient != nil {
 		log.Println("Sendgrid Client initialized successfully")
 		return true
 	}
