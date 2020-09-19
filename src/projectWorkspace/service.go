@@ -10,12 +10,35 @@ import (
 type IService interface{
 	GetUser(string)(model.User,error)
 	GetAllAccounts()([]model.Account,error)
-	SendMail(model.Account,sendgrid.SGClient)error
+	AddUser(model.User)(string,error)
 }
+
+func SendMail(model.User,sendgrid.SGClient)error{
+	return nil
+}
+
 
 type Service struct{
 	IDAO dao.InterfaceDao
 	IMailClient sendgrid.SGClient
+}
+
+func (svc Service)AddUser(userObj model.User)(string,error){
+	
+	_,errAdd := svc.IDAO.AddUser(userObj)
+
+	if errAdd != nil{
+		return "", errors.New("Error occurred in saving User")
+	}
+
+	errSend := SendMail(userObj,svc.IMailClient)
+
+	if errSend !=nil{
+		return "", errors.New("Error occured in sending mail")
+	}
+
+	return "Successfully added user",nil
+
 }
 
 func(svc Service)GetUser(userId string)(model.User,error){
