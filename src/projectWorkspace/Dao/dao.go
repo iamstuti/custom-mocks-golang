@@ -3,15 +3,21 @@ package Dao
 import(
 
 	"log"
+	"fmt"
+	"errors"
 	"projectWorkspace/projectWorkspace/model"
 	"projectWorkspace/projectWorkspace/GCP/Datastore"
 	"cloud.google.com/go/datastore"
+	"google.golang.org/api/iterator"
+	
 )
 
 type Dao struct{
 	InterfaceDao
 	Datastore.GDatastore
 }
+
+const Err_EmptyKey="Datastore key cannot be empty"
 
 func(dao Dao)GetUser(userId string, user *model.User)(error){
 
@@ -32,10 +38,50 @@ func(dao Dao)GetUser(userId string, user *model.User)(error){
 	return nil
 }
 
-func (dao Dao)GetAllAccounts()([]model.Account){
+func (dao Dao)GetAllAccounts()([]model.Account,error){
 	query := datastore.NewQuery(Datastore.GetAccountKind())
+	queryNamespace:= query.Namespace(Datastore.GetNamespace())
+	
+	it := dao.IDatastoreClient.Run(dao.DbContext, queryNamespace)
 	var accountList  []model.Account
 
+	is_Done := false
+	var ErrNext error
+	var accountKey *datastore.Key
+
+	for {
+
+		var accObj model.Account
+
+
+		accountKey, ErrNext = it.Next(&accObj)
+
+		if ErrNext == iterator.Done{
+			is_Done = true
+			break
+		}
+
+		if ErrNext != nil {
+			break
+		}
+
+		if accountKey == nil {
+			ErrNext = errors.New(Err_EmptyKey)
+			break
+		}
+
+		accObj.AccountId= fmt.Sprint(accountKey.ID)
+		accountList = append(accountList,accObj)
+	}
+
+
+
+
+	if !is_Done{
+		return []model.Account{},ErrNext
+	}
+
+	return accountList,nil
 }
 
 

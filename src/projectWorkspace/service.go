@@ -9,8 +9,7 @@ import (
 
 type IService interface{
 	GetUser(string)(model.User,error)
-	GetAllAccounts()([]model.Account, error)
-	GetAccount(string) error
+	GetAllAccounts()([]model.Account,error)
 	SendMail(model.Account,sendgrid.SGClient)error
 }
 
@@ -31,3 +30,16 @@ func(svc Service)GetUser(userId string)(model.User,error){
 
 	return userObj,nil
 }
+
+func(svc Service)GetAllAccounts()([]model.Account,error){
+
+	accList, errList := svc.IDAO.GetAllAccounts()
+
+	if errList !=nil {
+		return []model.Account{}, errors.New("Error occurred in getting account list")
+	}
+	
+	return accList, nil
+
+}
+
