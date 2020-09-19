@@ -5,7 +5,7 @@ import (
 	"github.com/sendgrid/rest"
 )
 
-//Client is the interface that wraps a sendgrid.Client.
+//SendInterfaceClient is the interface that wraps a sendgrid.Client Send function.
 type SendInterface interface {
 	Send(email *mail.SGMailV3) (*rest.Response, error)
 }
