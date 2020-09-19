@@ -10,6 +10,8 @@ type InterfaceDao interface{
 
 	GetAllAccounts()([]model.Account,error)
 
+	AddUser(model.User)(string,error)
+
 
 	
 }

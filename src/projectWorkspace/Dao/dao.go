@@ -38,6 +38,20 @@ func(dao Dao)GetUser(userId string, user *model.User)(error){
 	return nil
 }
 
+func (dao Dao)AddUser(userObj model.User)(string, error)  {
+
+	key := Datastore.GenerateIncompleteKey(Datastore.GetUserKind(),Datastore.GetNamespace(),nil)
+
+	userKey, errAdd := dao.IDatastoreClient.Put(dao.DbContext,key,&userObj)
+
+	if errAdd != nil{
+		return "", errors.New("Error occurred in saving user object")
+
+	}
+
+	return fmt.Sprint(userKey.ID),nil
+}
+
 func (dao Dao)GetAllAccounts()([]model.Account,error){
 	query := datastore.NewQuery(Datastore.GetAccountKind())
 	queryNamespace:= query.Namespace(Datastore.GetNamespace())
