@@ -1,6 +1,7 @@
 package projectWorkspace
 
 import (
+	"log"
 	"projectWorkspace/projectWorkspace/GCP/Datastore"
 	"errors"
 	"projectWorkspace/projectWorkspace/model"
@@ -15,7 +16,7 @@ import (
 type IService interface{
 	GetUser(string)(model.User,error)
 	GetAllAccounts()([]model.Account,error)
-	AddUser(model.User)(string,error)
+	AddUser(AddUserRequest)(string,error)
 
 	InitializeService(datastoreObj Datastore.GDatastore)(bool)
 }
@@ -31,6 +32,8 @@ type Service struct{
 	IPaymentInterface PaymentInterfaces.CheckPaymentInterface
 }
 
+var ErrInvalidArgument = errors.New("Invalid argument")
+
 func (svc *Service)InitializeService(datastoreObj Datastore.GDatastore) bool{
 
 	svc.IDAO = dao.Dao{GDatastore: datastoreObj}
@@ -44,25 +47,39 @@ func (svc *Service)InitializeService(datastoreObj Datastore.GDatastore) bool{
 	return true
 }
 
-func (svc Service)AddUser(userObj model.User)(string,error){
+func (svc Service)AddUser(userObj AddUserRequest)(string,error){
 	
-	_,errAdd := svc.IDAO.AddUser(userObj)
+	var newUserObj model.User
+
+	newUserObj.UserName = userObj.UserName
+	newUserObj.UserEMail = userObj.UserEMail
+	newUserObj.AccountID = userObj.AccountID
+	
+	msg, errPayment := svc.IPaymentInterface.CheckPaymentStatus(userObj.UserEMail,userObj.AccountID)
+
+	log.Printf("Payment Status : %v",msg)
+	
+	if errPayment != nil {
+		return "",errors.New("Payment is pending")
+	}
+
+
+	_,errAdd := svc.IDAO.AddUser(newUserObj)
 
 	if errAdd != nil{
 		return "", errors.New("Error occurred in saving User")
 	}
 
-	errSend := SendMail(userObj,svc.IMailClient)
-
-	if errSend !=nil{
-		return "", errors.New("Error occured in sending mail")
-	}
-
+	
 	return "Successfully added user",nil
 
 }
 
 func(svc Service)GetUser(userId string)(model.User,error){
+
+	if userId == ""{
+		return model.User{},ErrInvalidArgument
+	}
 
 	var userObj model.User 
 

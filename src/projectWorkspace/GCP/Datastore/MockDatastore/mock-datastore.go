@@ -63,7 +63,7 @@ func (mds *MockDatastoreClient) Get(ctx context.Context, key *datastore.Key, dst
 		user.AccountID = "AZ3129WR2M"
 		user.UserId = "5766313779658752"
 		user.SubscriptionID = "ZCI6Ik1UVTRNRE0xT0RrMk9BPT0ifQ"
-		user.AccountCreationDate= time.Now().AddDate(0,-3,3)
+		user.PaymentDate= time.Now().AddDate(0,-3,3)
 		user.SubscriptionExpiryDate = time.Now().AddDate(1,-3,2)
 		user.PaymentMethod ="visa credit card"
 
@@ -127,7 +127,7 @@ func (mds *MockDatastoreClient) Run(ctx context.Context, q *datastore.Query) dsi
 	UserId:        "5766313779696200",
 	UserEMail:           "AGary12@gmail.com",
 	AccountID:         "AZ8D7DK",
-	AccountCreationDate:   time.Now().AddDate(-1,1,1),
+	PaymentDate:   time.Now().AddDate(-1,1,1),
 	SubscriptionExpiryDate: time.Now().AddDate(0,1,0),
 	SubscriptionID:"ZCI6Ik1UVXEQ420xT0RrMk9BPT0ifQ"}
 
@@ -135,7 +135,7 @@ func (mds *MockDatastoreClient) Run(ctx context.Context, q *datastore.Query) dsi
 	UserId:        "5766313779658752",
 	UserEMail:           "ZackWG@gmail.com",
 	AccountID:         "AZ3129WR2M",
-	AccountCreationDate:   time.Now().AddDate(-1,2,3),
+	PaymentDate:   time.Now().AddDate(-1,2,3),
 	SubscriptionExpiryDate: time.Now().AddDate(0,2,2),
 	SubscriptionID:"ZMEX4Ik1UVXEQ420xT0RsBk4BPT0ifQ"}
 
@@ -249,7 +249,7 @@ func (mt *MockIterator) Next(dst interface{}) (*datastore.Key, error) {
 			obj.UserName = uList.UserName
 			obj.UserId = uList.UserId
 			obj.AccountID = uList.AccountID
-			obj.AccountCreationDate = uList.AccountCreationDate
+			obj.PaymentDate = uList.PaymentDate
 			obj.SubscriptionExpiryDate = uList.SubscriptionExpiryDate
 			obj.SubscriptionID = uList.SubscriptionID
 
