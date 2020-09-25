@@ -55,7 +55,7 @@ func (svc Service)AddUser(userObj AddUserRequest)(string,error){
 	newUserObj.UserEMail = userObj.UserEMail
 	newUserObj.AccountID = userObj.AccountID
 	
-	msg, errPayment := svc.IPaymentInterface.CheckPaymentStatus(userObj.UserEMail,userObj.AccountID)
+	msg,paymentInfo, errPayment := svc.IPaymentInterface.CheckPaymentStatus(userObj.UserEMail,userObj.AccountID)
 
 	log.Printf("Payment Status : %v",msg)
 	
@@ -63,6 +63,10 @@ func (svc Service)AddUser(userObj AddUserRequest)(string,error){
 		return "",errors.New("Payment is pending")
 	}
 
+	newUserObj.PaymentDate=paymentInfo.PaymentDate
+	newUserObj.PaymentMethod=paymentInfo.PaymentMode
+
+	newUserObj.SubscriptionExpiryDate = newUserObj.PaymentDate.AddDate(1,0,0)
 
 	_,errAdd := svc.IDAO.AddUser(newUserObj)
 

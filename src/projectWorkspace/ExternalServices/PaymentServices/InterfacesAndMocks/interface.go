@@ -9,7 +9,7 @@ type PaymentStatusInterface interface {
 }
 
 type CheckPaymentInterface interface {
-	CheckPaymentStatus(string,string)(string,error)
+	CheckPaymentStatus(string,string)(string,models.UserPayment,error)
 }
 
 type PaymentHistoryInterface interface {

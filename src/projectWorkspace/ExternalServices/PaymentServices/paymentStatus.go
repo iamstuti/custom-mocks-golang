@@ -24,19 +24,19 @@ type  PaymentStatusParams struct {
 	PaymentClientUtils.ClientInterface
 }
 
-func (cp CheckPaymentStatus)CheckPaymentStatus(userId string,accountId string) (string, error){
+func (cp CheckPaymentStatus)CheckPaymentStatus(userId string,accountId string) (string,models.UserPayment, error){
 
 	paymentObj, errObj := cp.PaymentStatusParams.GetUserPaymentStatus(userId,accountId)
 
 	if errObj !=nil {
-		return "", errors.New("Error occurred in fetching user's payment status")
+		return "",models.UserPayment{}, errors.New("Error occurred in fetching user's payment status")
 	}
 	
 	if !strings.EqualFold(paymentObj.Status, PAYMENT_SUCCESS){
-		return "Payment failed", errors.New(PAYMENT_FAILURE)
+		return "Payment failed",models.UserPayment{},errors.New(PAYMENT_FAILURE)
 	}
 
-	return "Payment successfully made",nil
+	return "Payment successfully made",paymentObj,nil
 }
 
 func(ps PaymentStatusParams)GetUserPaymentStatus(userId string,accountId string)(models.UserPayment, error){

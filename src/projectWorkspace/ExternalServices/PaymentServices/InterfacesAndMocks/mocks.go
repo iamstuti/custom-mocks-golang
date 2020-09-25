@@ -17,8 +17,17 @@ type MockPaymentStatus struct {
 const Err_Payment = "User Payment Status unavailable"
 const Failed_Payment = "Payment failed"
 
-func (mcp MockCheckPayment)	CheckPaymentStatus(userId string,accountId string)(string,error){
-	return "Payment successful",nil
+func (mcp MockCheckPayment)	CheckPaymentStatus(userId string,accountId string)(string,models.UserPayment,error){
+	paymentObj := models.UserPayment{
+		ReferenceNumber: 952634179,
+		PaymentDate:     time.Now(),
+		PaymentMode:     "Citibank Credit Card",
+		Amount:          50.25,
+		Status:          "success",
+	}
+
+
+	return "Payment successful",paymentObj,nil
 }
 
 
