@@ -1,26 +1,47 @@
 package projectWorkspace
 
 import (
+	"projectWorkspace/projectWorkspace/GCP/Datastore"
 	"errors"
 	"projectWorkspace/projectWorkspace/model"
 	sendgrid "projectWorkspace/projectWorkspace/SendgridMail"
 	dao  "projectWorkspace/projectWorkspace/Dao"
+	PaymentInterfaces "projectWorkspace/projectWorkspace/ExternalServices/PaymentServices/InterfacesAndMocks"
+	paymentSvc "projectWorkspace/projectWorkspace/ExternalServices/PaymentServices"
+	httpUtils "projectWorkspace/projectWorkspace/ExternalServices/PaymentServices/PaymentClientUtils"
+
 )
 
 type IService interface{
 	GetUser(string)(model.User,error)
 	GetAllAccounts()([]model.Account,error)
 	AddUser(model.User)(string,error)
+
+	InitializeService(datastoreObj Datastore.GDatastore)(bool)
 }
 
-func SendMail(model.User,sendgrid.SendInterface)error{
-	return nil
+func SendMail(userobj model.User,client sendgrid.SendInterface)error{
+	return sendgrid.TriggerMail(userobj,client) 
 }
 
 
 type Service struct{
 	IDAO dao.InterfaceDao
 	IMailClient sendgrid.SendInterface
+	IPaymentInterface PaymentInterfaces.CheckPaymentInterface
+}
+
+func (svc *Service)InitializeService(datastoreObj Datastore.GDatastore) bool{
+
+	svc.IDAO = dao.Dao{GDatastore: datastoreObj}
+
+	actualClient := httpUtils.HTTPClient{}
+
+	paymentParamsObj := paymentSvc.PaymentStatusParams{ClientInterface: actualClient}
+
+	svc.IPaymentInterface = paymentSvc.CheckPaymentStatus{PaymentStatusParams:paymentParamsObj}
+
+	return true
 }
 
 func (svc Service)AddUser(userObj model.User)(string,error){
