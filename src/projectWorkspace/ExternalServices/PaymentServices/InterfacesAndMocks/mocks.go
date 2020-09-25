@@ -56,8 +56,8 @@ type MockCheckPaymentError struct {
 	CheckPaymentInterface
 }
 
-func (mcp MockCheckPaymentError)CheckPaymentStatus(userId string,accountId string)(string,error){
-	return "",errors.New(Failed_Payment)
+func (mcp MockCheckPaymentError)CheckPaymentStatus(userId string,accountId string)(string,models.UserPayment,error){
+	return "",models.UserPayment{},errors.New(Failed_Payment)
 }
 
 
