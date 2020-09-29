@@ -5,7 +5,6 @@ import (
 	"projectWorkspace/projectWorkspace/GCP/Datastore"
 	"errors"
 	"projectWorkspace/projectWorkspace/model"
-	sendgrid "projectWorkspace/projectWorkspace/SendgridMail"
 	dao  "projectWorkspace/projectWorkspace/Dao"
 	PaymentInterfaces "projectWorkspace/projectWorkspace/ExternalServices/PaymentServices/InterfacesAndMocks"
 	paymentSvc "projectWorkspace/projectWorkspace/ExternalServices/PaymentServices"
@@ -21,14 +20,11 @@ type IService interface{
 	InitializeService(datastoreObj Datastore.GDatastore)(bool)
 }
 
-func SendMail(userobj model.User,client sendgrid.SendInterface)error{
-	return sendgrid.TriggerMail(userobj,client) 
-}
 
 
 type Service struct{
 	IDAO dao.InterfaceDao
-	IMailClient sendgrid.SendInterface
+	
 	IPaymentInterface PaymentInterfaces.CheckPaymentInterface
 }
 

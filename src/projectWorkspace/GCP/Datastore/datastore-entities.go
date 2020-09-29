@@ -1,6 +1,10 @@
 package Datastore
 
+/*
+Assume that entities (schemas): user,Account,Services exist in dummy-namespace 
+of GCP Datastore with project id "YOUR-PROJECT-ID" 
 
+*/
 func GetUserKind() string {
 	return "User"
 }

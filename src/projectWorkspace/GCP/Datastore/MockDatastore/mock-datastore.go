@@ -119,8 +119,6 @@ func (mds *MockDatastoreClient) PutMulti(ctx context.Context, keys []*datastore.
 
 func (mds *MockDatastoreClient) Run(ctx context.Context, q *datastore.Query) dsiface.Iterator {
 
-
-
 	var userList []model.User
 
 	userObj1 := model.User{UserName: "Arianda Gary",
