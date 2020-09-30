@@ -42,8 +42,16 @@ func (c *GDatastore) Connect(projectName string, nameSpace string) bool {
 		return false
 	}
 
-	namespace = nameSpace
-	log.Println("Datastore Client initialized successfully !!")
+	if setNamespace(nameSpace){
+		log.Println("Namespace setting successfull")
+		return false
+	}
 
 	return true
+}
+
+func setNamespace(dsNamespace string) bool{
+	namespace = dsNamespace
+	return true
+
 }
