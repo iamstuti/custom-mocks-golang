@@ -44,7 +44,6 @@ func (c *GDatastore) Connect(projectName string, nameSpace string) bool {
 
 	if setNamespace(nameSpace){
 		log.Println("Namespace setting successfull")
-		return false
 	}
 
 	return true
